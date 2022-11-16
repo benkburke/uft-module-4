@@ -20,10 +20,16 @@ class BooksRepository {
     let dto = {
       name: bookPm.name,
       author: bookPm.author,
-      ownerId: "pete@logicroom.co"
+      ownerId: "pete@logicroom.co",
     };
 
     await httpGateway.post(this.apiUrl + "books", dto);
+    await this.loadApiData();
+    this.programmersModel.notify();
+  };
+
+  deleteBook = async (bookId) => {
+    await httpGateway.delete(this.apiUrl + "books" + "/" + bookId);
     await this.loadApiData();
     this.programmersModel.notify();
   };

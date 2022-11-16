@@ -14,4 +14,8 @@ export default class BooksPresenter {
     const bookPm = { name: bookName, author: bookAuthor };
     await booksRepository.addBook(bookPm);
   };
+
+  deleteBook = async (bookId) => {
+    await booksRepository.deleteBook(bookId);
+  };
 }
