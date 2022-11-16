@@ -16,21 +16,21 @@ beforeEach(() => {
         id: 111,
         name: "Wind in the willows",
         ownerId: "pete@logicroom.co",
-        author: "Kenneth Graeme"
+        author: "Kenneth Graeme",
       },
       {
         id: 121,
         name: "I, Robot",
         ownerId: "pete@logicroom.co",
-        author: "Isaac Asimov"
+        author: "Isaac Asimov",
       },
       {
         id: 131,
         name: "The Hobbit",
         ownerId: "pete@logicroom.co",
-        author: "Jrr Tolkein"
-      }
-    ]
+        author: "Jrr Tolkein",
+      },
+    ],
   };
 
   postStub = { success: true };
@@ -78,7 +78,7 @@ it("should allow book to be added to api and then viewmodel is updated", async (
     id: 111,
     name: "BFTDD",
     ownerId: "pete@logicroom.co",
-    author: "Pete Heard"
+    author: "Pete Heard",
   });
 
   await booksPresenter.addBook("BFTDD", "Pete Heard");
@@ -88,4 +88,25 @@ it("should allow book to be added to api and then viewmodel is updated", async (
   expect(viewModel[1].author).toBe("Isaac Asimov");
   expect(viewModel[3].name).toBe("BFTDD");
   expect(viewModel[3].author).toBe("Pete Heard");
+});
+
+it("should allow book to be deleted from api and then viewmodel is updated", async () => {
+  let viewModel = null;
+  let booksPresenter = new BooksPresenter();
+
+  await booksPresenter.load((result) => {
+    viewModel = result;
+  });
+
+  // anchor
+  expect(viewModel.length).toBe(3);
+
+  // pivot
+  getStub.result.pop();
+
+  await booksPresenter.deleteBook(131);
+
+  expect(viewModel.length).toBe(2);
+  expect(viewModel[1].name).toBe("I, Robot");
+  expect(viewModel[1].author).toBe("Isaac Asimov");
 });
